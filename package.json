@@ -1,0 +1,24 @@
+{
+  "name": "wasm-fizzbuzz",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "build:wasm": "node scripts/build-wasm.mjs",
+    "dev": "vite --config app/vite.config.ts",
+    "build": "vite build --config app/vite.config.ts",
+    "preview": "vite preview --config app/vite.config.ts --host 127.0.0.1 --port 4173 --strictPort",
+    "deploy": "pnpm build && wrangler deploy",
+    "typecheck": "tsc -p app --noEmit",
+    "test": "node --test tests/pipeline.test.mjs",
+    "predev": "node scripts/build-wasm.mjs",
+    "prebuild": "node scripts/build-wasm.mjs",
+    "pretest": "node scripts/build-wasm.mjs"
+  },
+  "devDependencies": {
+    "assemblyscript": "0.28.20",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "wrangler": "4.157.0"
+  }
+}

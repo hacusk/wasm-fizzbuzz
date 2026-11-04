@@ -1,0 +1,15 @@
+node_modules/
+.wrangler/
+.dev.vars*
+
+.pnpm-store/
+dist/
+.DS_Store
+.tools/
+app/public/wasm/
+recipes/rust/target/
+recipes/rust/src/c.wasm
+recipes/go/guest/
+recipes/zig/.zig-cache/
+recipes/zig/zig-out/
+recipes/java/target/
