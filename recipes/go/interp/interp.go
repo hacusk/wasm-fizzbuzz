@@ -5,6 +5,7 @@ package interp
 import (
 	"encoding/binary"
 	"fmt"
+	"math"
 )
 
 const pageSize = 65536
@@ -108,9 +109,6 @@ type reader struct {
 }
 
 func Fizz(n int32, rustWASM, cWASM, zigWASM []byte) (Result, error) {
-	if n < 1 || n > 100 {
-		return Result{}, fmt.Errorf("n が範囲外")
-	}
 	rust, err := Load(rustWASM)
 	if err != nil {
 		return Result{}, fmt.Errorf("Rust.wasm: %w", err)
@@ -173,13 +171,26 @@ func itoa(n int32) string {
 	if n == 0 {
 		return "0"
 	}
+	neg := n < 0
+	var v uint32
+	switch {
+	case n == math.MinInt32:
+		v = 1 << 31
+	case neg:
+		v = uint32(-n)
+	default:
+		v = uint32(n)
+	}
 	var buf [16]byte
 	i := len(buf)
-	v := n
 	for v > 0 {
 		i--
 		buf[i] = byte('0' + v%10)
 		v /= 10
+	}
+	if neg {
+		i--
+		buf[i] = '-'
 	}
 	return string(buf[i:])
 }

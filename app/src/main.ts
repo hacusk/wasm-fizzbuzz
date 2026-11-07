@@ -1,7 +1,7 @@
 import { detectEnvironment } from "./env.js";
 
-const MIN_N = 1;
-const MAX_N = 100;
+const MIN_N = -2147483648;
+const MAX_N = 2147483647;
 
 const log = document.querySelector("#log");
 const out = document.querySelector("#out");
@@ -86,6 +86,7 @@ async function run(env: ReturnType<typeof detectEnvironment>): Promise<void> {
 
 function readN(): number | null {
   if (!field) return null;
+  if (field.value.trim() === "") return null;
   const n = Number(field.value);
   if (!Number.isInteger(n) || n < MIN_N || n > MAX_N) return null;
   return n;

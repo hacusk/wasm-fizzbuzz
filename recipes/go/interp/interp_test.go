@@ -1,6 +1,7 @@
 package interp
 
 import (
+	"math"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -20,7 +21,11 @@ func TestFizz(t *testing.T) {
 	rust := guest("rust.wasm")
 	c := guest("c.wasm")
 	zig := guest("zig.wasm")
+	samples := []int32{math.MinInt32, -15, -5, -3, -1, 0, 101, math.MaxInt32}
 	for n := int32(1); n <= 100; n++ {
+		samples = append(samples, n)
+	}
+	for _, n := range samples {
 		got, err := Fizz(n, rust, c, zig)
 		if err != nil {
 			t.Fatalf("n=%d: %v", n, err)
@@ -38,9 +43,6 @@ func TestFizz(t *testing.T) {
 		if got.Word != classic(n) {
 			t.Fatalf("n=%d word %q", n, got.Word)
 		}
-	}
-	if _, err := Fizz(0, rust, c, zig); err == nil {
-		t.Fatal("0 should fail")
 	}
 }
 

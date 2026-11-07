@@ -38,15 +38,15 @@ test("go.wasm runs rust, c, and zig", async () => {
   assert.ok(load("go.wasm").includes(rust));
   assert.ok(load("go.wasm").includes(c));
   assert.ok(load("go.wasm").includes(zig));
-  for (let n = 1; n <= 100; n++) {
-    assert.equal(go.exports.run(n), 0);
+  const samples = [-2147483648, -15, -5, -3, -1, 0, 101, 2147483647];
+  for (let n = 1; n <= 100; n++) samples.push(n);
+  for (const n of samples) {
+    assert.equal(go.exports.run(n), 0, String(n));
     const word = text(go, go.exports.out_ptr(), go.exports.out_len());
-    assert.equal(word, classic(n));
+    assert.equal(word, classic(n), String(n));
     assert.equal(go.exports.flag3(), n % 3 === 0 ? 1 : 0);
     assert.equal(go.exports.flag5(), n % 5 === 0 ? 1 : 0);
   }
-  assert.equal(go.exports.run(0), -1);
-  assert.equal(go.exports.run(101), -1);
 });
 
 test("guest modules answer their own part", async () => {

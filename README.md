@@ -24,7 +24,7 @@ pnpm test
 
 ## 文字列の作り方
 
-JavaScript は n（1 から 100）を三つの Wasm に渡すだけです。Go がメインで、Rust、C、Zig の Wasm をバイト列として持ち、自分の中のインタプリタで実行します。C++ と AssemblyScript は Go の中には入らず、横に並びます。Go の検証と AssemblyScript の出力が一致したときだけ、画面にその語を出します。
+JavaScript は n（-2147483648 から 2147483647）を三つの Wasm に渡すだけです。Go がメインで、Rust、C、Zig の Wasm をバイト列として持ち、自分の中のインタプリタで実行します。C++ と AssemblyScript は Go の中には入らず、横に並びます。Go の検証と AssemblyScript の出力が一致したときだけ、画面にその語を出します。
 
 | 層 | 誰が動かすか | 仕事 |
 |---|---|---|

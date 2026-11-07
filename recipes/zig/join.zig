@@ -20,13 +20,23 @@ fn pushInt(n: i32) void {
         push('0');
         return;
     }
+    var value: u32 = undefined;
+    if (n < 0) {
+        push('-');
+        if (n == -2147483648) {
+            value = 2147483648;
+        } else {
+            value = @intCast(-n);
+        }
+    } else {
+        value = @intCast(n);
+    }
     var buf: [16]u8 = undefined;
-    var value = n;
     var i: usize = 0;
     while (value > 0) {
-        buf[i] = '0' + @as(u8, @intCast(@mod(value, 10)));
+        buf[i] = '0' + @as(u8, @intCast(value % 10));
         i += 1;
-        value = @divTrunc(value, 10);
+        value /= 10;
     }
     while (i > 0) {
         i -= 1;
